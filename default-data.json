@@ -1,0 +1,12 @@
+{
+  "siteName":"ANANTAA CREATION","eyebrow":"SCAN ONCE. CONNECT WITH ANANTAA.","subline":"Designer Sarees | Chaniya Choli | Indo-Western Dresses",
+  "review":{"enabled":true,"title":"GIVE US A GOOGLE REVIEW","subtitle":"Share your genuine Anantaa experience","url":"https://g.page/r/Ce_5OmgsbRJuEBE/review"},
+  "instagram":{"enabled":true,"title":"FOLLOW US ON INSTAGRAM","subtitle":"New arrivals • Reels • Offers","url":"https://www.instagram.com/anantaacreation?igsh=MTF3YzNwdXpvcTBhYQ=="},
+  "facebook":{"enabled":true,"title":"FOLLOW US ON FACEBOOK","subtitle":"Stay connected with Anantaa","url":"https://www.facebook.com/share/1AnLyDaN6P/"},
+  "payment":{"enabled":true,"title":"PAY NOW","subtitle":"UPI payment • Kotak","upiId":"0792593a0019176.bqr@kotak"},
+  "maps":{"enabled":true,"title":"GET DIRECTIONS","subtitle":"Find Anantaa Creation","url":"https://maps.app.goo.gl/vRKrQ8iVt6MmrEyD6?g_st=awb"},
+  "whatsapp":{"enabled":true,"title":"CHAT ON WHATSAPP","subtitle":"Enquiries & collection details","url":"https://wa.me/message/KGPXCNP247PJE1"},
+  "phone":{"enabled":true,"title":"CALL NOW","subtitle":"+91 99564 64164","number":"+919956464164"},
+  "reviewHelper":{"enabled":true,"title":"⭐ Need help writing your review?","text":"Tell us what you genuinely liked. This tool turns your own words into a polished review draft. You choose whether to edit and post it."},
+  "footer":{"name":"ANANTAA CREATION","address":"Parth Avenue Commercial Complex, Shop No. FF-2 & FF-3\nOpp. Savita Society, Nr. Naranpura Crossing, Ahmedabad"}
+}
