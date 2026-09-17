@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#5b0716">
+  <meta name="description" content="Anantaa Creation — Designer Sarees, Chaniya Choli & Indo-Western Dresses. Connect, review, pay and visit us.">
+  <title>Anantaa Creation | Endless Tradition</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Auto-open Google Review popup -->
+  <div class="modal open" id="autoReviewModal" aria-hidden="false">
+    <div class="modal-box review-modal">
+      <button class="close" id="autoReviewClose" type="button" aria-label="Close">×</button>
+      <h2>⭐ GIVE US A GOOGLE REVIEW</h2>
+      <p class="note">We’d love to hear about your genuine Anantaa Creation shopping experience.</p>
+      <a class="primary link-button" href="https://g.page/r/Ce_5OmgsbRJuEBE/review" target="_blank" rel="noopener">OPEN GOOGLE REVIEW</a>
+      <button class="secondary" id="autoReviewLater" type="button">CONTINUE TO WEBSITE</button>
+    </div>
+  </div>
+  <main class="page">
+    <div class="fabric fabric-top"></div>
+    <div class="ornament ornament-top">✦</div>
+
+    <header class="header">
+      <img src="anantaa-logo.png" class="logo" alt="Anantaa Creation">
+      <p class="eyebrow">SCAN ONCE. CONNECT WITH ANANTAA.</p>
+      <p class="subline">Designer Sarees&nbsp; | &nbsp;Chaniya Choli&nbsp; | &nbsp;Indo-Western Dresses</p>
+    </header>
+
+    <section class="actions" aria-label="Anantaa links">
+      <a class="action" href="https://g.page/r/Ce_5OmgsbRJuEBE/review" target="_blank" rel="noopener">
+        <span class="icon">★</span><span><strong>GIVE US A GOOGLE REVIEW</strong><small>Share your genuine Anantaa experience</small></span><span class="arrow">›</span>
+      </a>
+
+      <a class="action" href="https://www.instagram.com/anantaacreation?igsh=MTF3YzNwdXpvcTBhYQ==" target="_blank" rel="noopener">
+        <span class="icon">◎</span><span><strong>FOLLOW US ON INSTAGRAM</strong><small>New arrivals • Reels • Offers</small></span><span class="arrow">›</span>
+      </a>
+
+      <a class="action" href="https://www.facebook.com/share/1AnLyDaN6P/" target="_blank" rel="noopener">
+        <span class="icon">f</span><span><strong>FOLLOW US ON FACEBOOK</strong><small>Stay connected with Anantaa</small></span><span class="arrow">›</span>
+      </a>
+
+      <button class="action" id="payBtn" type="button">
+        <span class="icon">₹</span><span><strong>PAY NOW</strong><small>UPI payment • Kotak</small></span><span class="arrow">›</span>
+      </button>
+
+      <a class="action" href="https://maps.app.goo.gl/vRKrQ8iVt6MmrEyD6?g_st=awb" target="_blank" rel="noopener">
+        <span class="icon">●</span><span><strong>GET DIRECTIONS</strong><small>Find Anantaa Creation</small></span><span class="arrow">›</span>
+      </a>
+
+      <a class="action" href="https://wa.me/message/KGPXCNP247PJE1" target="_blank" rel="noopener">
+        <span class="icon">◔</span><span><strong>CHAT ON WHATSAPP</strong><small>Enquiries & collection details</small></span><span class="arrow">›</span>
+      </a>
+
+      <a class="action" href="tel:+919956464164">
+        <span class="icon">☎</span><span><strong>CALL NOW</strong><small>+91 99564 64164</small></span><span class="arrow">›</span>
+      </a>
+    </section>
+
+    <section class="review-card">
+      <h2>⭐ Need help writing your review?</h2>
+      <p>Tell us what you genuinely liked. This tool turns your own words into a polished review draft. You choose whether to edit and post it.</p>
+      <button class="secondary" id="reviewHelpBtn" type="button">CREATE MY REVIEW DRAFT</button>
+    </section>
+
+    <footer>
+      <div class="footer-rule">✦</div>
+      <p><strong>ANANTAA CREATION</strong></p>
+      <p>Parth Avenue Commercial Complex, Shop No. FF-2 & FF-3<br>
+      Opp. Savita Society, Nr. Naranpura Crossing, Ahmedabad</p>
+      <p class="footer-links">
+        <a href="tel:+919956464164">Call</a> ·
+        <a href="https://wa.me/message/KGPXCNP247PJE1" target="_blank" rel="noopener">WhatsApp</a> ·
+        <a href="https://maps.app.goo.gl/vRKrQ8iVt6MmrEyD6?g_st=awb" target="_blank" rel="noopener">Maps</a>
+      </p>
+    </footer>
+
+    <div class="fabric fabric-bottom"></div>
+  </main>
+
+  <!-- Payment modal -->
+  <div class="modal" id="paymentModal" aria-hidden="true">
+    <div class="modal-box">
+      <button class="close" data-close="paymentModal" aria-label="Close">×</button>
+      <h2>PAY ANANTAA CREATION</h2>
+      <p>UPI ID</p>
+      <div class="upi-box">0792593a0019176.bqr@kotak</div>
+      <button class="primary" id="upiBtn">OPEN UPI PAYMENT</button>
+      <p class="note">If the UPI app does not open, copy the UPI ID and pay from your preferred UPI app.</p>
+    </div>
+  </div>
+
+  <!-- Review helper modal -->
+  <div class="modal" id="reviewModal" aria-hidden="true">
+    <div class="modal-box review-modal">
+      <button class="close" data-close="reviewModal" aria-label="Close">×</button>
+      <h2>CREATE YOUR REVIEW DRAFT</h2>
+      <p class="note">Use only details that are true about your own shopping experience.</p>
+
+      <label>What did you like?</label>
+      <div class="chips" id="chips">
+        <button type="button" data-value="the collection">Collection</button>
+        <button type="button" data-value="the saree quality">Saree Quality</button>
+        <button type="button" data-value="the Chaniya Choli collection">Chaniya Choli</button>
+        <button type="button" data-value="the Indo-Western collection">Indo-Western</button>
+        <button type="button" data-value="the staff and service">Staff & Service</button>
+        <button type="button" data-value="the pricing">Pricing</button>
+      </div>
+
+      <label for="reviewWords">Your own words</label>
+      <textarea id="reviewWords" rows="4" placeholder="Example: Beautiful collection, helpful staff and good shopping experience."></textarea>
+
+      <label for="rating">Rating</label>
+      <select id="rating">
+        <option value="5">★★★★★ 5 stars</option>
+        <option value="4">★★★★ 4 stars</option>
+        <option value="3">★★★ 3 stars</option>
+        <option value="2">★★ 2 stars</option>
+        <option value="1">★ 1 star</option>
+      </select>
+
+      <button class="primary" id="draftBtn">GENERATE REVIEW DRAFT</button>
+
+      <div id="draftArea" class="draft-area" hidden>
+        <label>Your draft</label>
+        <textarea id="draftText" rows="6" readonly></textarea>
+        <div class="draft-actions">
+          <button class="secondary" id="copyBtn">COPY</button>
+          <a class="primary link-button" href="https://g.page/r/Ce_5OmgsbRJuEBE/review" target="_blank" rel="noopener">OPEN GOOGLE REVIEW</a>
+        </div>
+        <p class="note">Please edit the draft if needed and post it only if it accurately reflects your experience.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  function closeAutoReview(){
+    const m=document.getElementById("autoReviewModal");
+    if(m){m.classList.remove("open");m.setAttribute("aria-hidden","true");}
+  }
+  document.getElementById("autoReviewClose").addEventListener("click", closeAutoReview);
+  document.getElementById("autoReviewLater").addEventListener("click", closeAutoReview);
+</script>
+<script src="script.js"></script>
+</body>
+</html>
