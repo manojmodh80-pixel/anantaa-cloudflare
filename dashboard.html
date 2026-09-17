@@ -1,2 +1,182 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Anantaa Admin Dashboard</title><style>*{box-sizing:border-box}body{margin:0;background:#f7f1e5;color:#42101b;font-family:Arial,sans-serif}.wrap{max-width:720px;margin:auto;padding:18px}.top{background:#65091b;color:#ffe5a8;border-radius:18px;padding:20px;margin-bottom:14px}.card{background:#fff;border:1px solid #dfc898;border-radius:16px;padding:18px;margin:12px 0;box-shadow:0 4px 15px #4b101218}h1,h2{font-family:Georgia,serif}h1{margin:0;font-size:24px}h2{font-size:19px;margin:0 0 12px}.grid{display:grid;gap:11px}label{font-size:12px;font-weight:700}input,textarea{width:100%;padding:11px;border:1px solid #cdb98d;border-radius:9px;font-size:15px}textarea{min-height:70px}.switch{display:flex;align-items:center;gap:8px;margin:8px 0}.switch input{width:auto}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.buttons{display:flex;gap:10px;flex-wrap:wrap;position:sticky;bottom:10px}.btn{border:0;border-radius:24px;padding:13px 18px;font-weight:700}.save{background:#65091b;color:#ffe4a0}.reset{background:#e8dcc0;color:#4b101b}.live{background:#d4ad60;color:#3c0912}.status{font-size:13px;margin-top:8px;min-height:18px}@media(max-width:520px){.row{grid-template-columns:1fr}}</style></head><body><div class="wrap"><div class="top"><h1>ANANTAA ADMIN DASHBOARD</h1><div>Edit website links, text & buttons</div></div><div id="app"></div><div class="buttons"><button class="btn save" id="save">💾 SAVE CHANGES</button><button class="btn reset" id="reset">↺ RESET</button><button class="btn live" onclick="location.href='/'">🌐 OPEN LIVE WEBSITE</button></div><div class="status" id="status"></div></div><script>
-let data;const fields=[['review','Google Review','url'],['instagram','Instagram','url'],['facebook','Facebook','url'],['payment','Payment','upiId'],['maps','Google Maps','url'],['whatsapp','WhatsApp','url'],['phone','Phone','number']];const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));function inp(label,path,val,area=false){return `<label>${label}</label>${area?`<textarea data-path="${path}">${esc(val)}</textarea>`:`<input data-path="${path}" value="${esc(val)}">`}`}function set(o,p,v){const a=p.split('.');let x=o;for(let i=0;i<a.length-1;i++)x=x[a[i]];x[a.at(-1)]=v}async function load(){const r=await fetch('/api/config',{cache:'no-store'});if(!r.ok)throw Error();data=await r.json();render()}function render(){let h=`<div class="card"><h2>General</h2><div class="grid">${inp('Site / Brand Name','siteName',data.siteName)}${inp('Main Heading','eyebrow',data.eyebrow)}${inp('Categories / Subheading','subline',data.subline)}</div></div>`;for(const [k,n,key] of fields){const x=data[k]||{};h+=`<div class="card"><h2>${n}</h2><div class="switch"><input type="checkbox" data-path="${k}.enabled" ${x.enabled!==false?'checked':''}><span>Show this button</span></div><div class="grid">${inp('Button title',k+'.title',x.title||'')}${inp('Small description',k+'.subtitle',x.subtitle||'')}${inp(key==='upiId'?'UPI ID':key==='number'?'Phone number':'Link',k+'.'+key,x[key]||'')}</div></div>`}h+=`<div class="card"><h2>Review Helper</h2><div class="switch"><input type="checkbox" data-path="reviewHelper.enabled" ${data.reviewHelper?.enabled!==false?'checked':''}><span>Show review helper</span></div><div class="grid">${inp('Title','reviewHelper.title',data.reviewHelper?.title||'')}${inp('Text','reviewHelper.text',data.reviewHelper?.text||'',true)}</div></div><div class="card"><h2>Footer</h2><div class="grid">${inp('Footer name','footer.name',data.footer?.name||'')}${inp('Address','footer.address',data.footer?.address||'',true)}</div></div>`;document.getElementById('app').innerHTML=h}document.getElementById('save').onclick=async()=>{document.querySelectorAll('[data-path]').forEach(e=>set(data,e.dataset.path,e.type==='checkbox'?e.checked:e.value));const p=sessionStorage.getItem('anantaa_admin_password')||prompt('Enter dashboard password');if(!p)return;sessionStorage.setItem('anantaa_admin_password',p);const r=await fetch('/api/config',{method:'PUT',headers:{'Content-Type':'application/json','X-Admin-Password':p},body:JSON.stringify(data)});document.getElementById('status').textContent=r.ok?'✅ Changes saved live.':'❌ Save failed. Check ADMIN_PASSWORD / KV binding.'};document.getElementById('reset').onclick=()=>load();load().catch(()=>document.getElementById('status').textContent='❌ Could not load configuration.');</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anantaa Admin Dashboard</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f5f1ee;margin:0;padding:20px;color:#3b1118}
+.box{max-width:650px;margin:auto;background:white;padding:24px;border-radius:18px;box-shadow:0 5px 25px #0002}
+h1{margin-top:0}
+label{display:block;font-weight:bold;margin-top:18px}
+input,textarea{width:100%;box-sizing:border-box;padding:12px;margin-top:7px;border:1px solid #ccc;border-radius:9px;font-size:15px}
+button{margin-top:20px;padding:13px 22px;border:0;border-radius:10px;background:#721526;color:white;font-weight:bold;cursor:pointer}
+#preview{display:block;max-width:180px;max-height:180px;margin:15px auto;border-radius:12px;object-fit:contain}
+.status{margin-top:15px;padding:12px;border-radius:8px;background:#f3e6e8}
+</style>
+</head>
+
+<body>
+<div class="box">
+
+<h1>ANANTAA Admin Dashboard</h1>
+<p>Update your website information.</p>
+
+<label>Logo</label>
+<input type="file" id="logoFile" accept="image/png,image/jpeg,image/webp">
+<img id="preview" src="/anantaa-logo.png" alt="Logo Preview">
+
+<label>Website Name</label>
+<input id="siteName">
+
+<label>Google Review URL</label>
+<input id="reviewUrl">
+
+<label>Instagram URL</label>
+<input id="instagramUrl">
+
+<label>Facebook URL</label>
+<input id="facebookUrl">
+
+<label>UPI ID</label>
+<input id="upiId">
+
+<label>Google Maps URL</label>
+<input id="mapsUrl">
+
+<label>WhatsApp URL</label>
+<input id="whatsappUrl">
+
+<label>Phone Number</label>
+<input id="phoneNumber">
+
+<label>Address</label>
+<textarea id="address" rows="3"></textarea>
+
+<button id="loadBtn">LOAD CURRENT DATA</button>
+<button id="saveBtn">SAVE CHANGES</button>
+
+<div class="status" id="status">Ready.</div>
+
+</div>
+
+<script>
+let data = null;
+let logoData = "";
+
+const password = prompt("Enter Admin Password:");
+
+function el(id){
+  return document.getElementById(id);
+}
+
+async function loadData(){
+  try{
+    const res = await fetch("/api/config",{cache:"no-store"});
+    if(!res.ok) throw new Error("Could not load configuration");
+
+    data = await res.json();
+
+    el("siteName").value = data.siteName || "";
+    el("reviewUrl").value = data.review?.url || "";
+    el("instagramUrl").value = data.instagram?.url || "";
+    el("facebookUrl").value = data.facebook?.url || "";
+    el("upiId").value = data.payment?.upiId || "";
+    el("mapsUrl").value = data.maps?.url || "";
+    el("whatsappUrl").value = data.whatsapp?.url || "";
+    el("phoneNumber").value = data.phone?.number || "";
+    el("address").value = data.footer?.address || "";
+
+    if(data.logo?.url){
+      logoData = data.logo.url;
+      el("preview").src = logoData;
+    }
+
+    el("status").textContent = "Current data loaded ✓";
+  }catch(e){
+    el("status").textContent = "Error: "+e.message;
+  }
+}
+
+el("logoFile").addEventListener("change",function(){
+  const file=this.files[0];
+  if(!file) return;
+
+  const reader=new FileReader();
+
+  reader.onload=function(){
+    logoData=reader.result;
+    el("preview").src=logoData;
+  };
+
+  reader.readAsDataURL(file);
+});
+
+async function saveData(){
+
+  if(!data){
+    alert("Please load current data first.");
+    return;
+  }
+
+  data.siteName=el("siteName").value;
+
+  data.review=data.review || {};
+  data.review.url=el("reviewUrl").value;
+
+  data.instagram=data.instagram || {};
+  data.instagram.url=el("instagramUrl").value;
+
+  data.facebook=data.facebook || {};
+  data.facebook.url=el("facebookUrl").value;
+
+  data.payment=data.payment || {};
+  data.payment.upiId=el("upiId").value;
+
+  data.maps=data.maps || {};
+  data.maps.url=el("mapsUrl").value;
+
+  data.whatsapp=data.whatsapp || {};
+  data.whatsapp.url=el("whatsappUrl").value;
+
+  data.phone=data.phone || {};
+  data.phone.number=el("phoneNumber").value;
+
+  data.footer=data.footer || {};
+  data.footer.address=el("address").value;
+
+  if(logoData){
+    data.logo={url:logoData};
+  }
+
+  try{
+    const res=await fetch("/api/config",{
+      method:"PUT",
+      headers:{
+        "Content-Type":"application/json",
+        "X-Admin-Password":password
+      },
+      body:JSON.stringify(data)
+    });
+
+    if(!res.ok){
+      const text=await res.text();
+      throw new Error(text || "Save failed");
+    }
+
+    el("status").textContent="Saved successfully ✓";
+    alert("Anantaa website updated successfully!");
+  }catch(e){
+    el("status").textContent="Error: "+e.message;
+    alert("Save failed: "+e.message);
+  }
+}
+
+el("loadBtn").onclick=loadData;
+el("saveBtn").onclick=saveData;
+
+loadData();
+</script>
+
+</body>
+</html>
