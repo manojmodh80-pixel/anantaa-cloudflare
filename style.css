@@ -1,1 +1,21 @@
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Georgia,"Times New Roman",serif;background:#5b0716;color:#fff4d7}body{overflow-x:hidden}.page{position:relative;min-height:100vh;max-width:560px;margin:auto;padding:28px 16px 34px;overflow:hidden;background:radial-gradient(circle at 50% 32%,#8e182d 0,#680a1b 42%,#4c0614 100%);box-shadow:0 0 50px #22000a inset}.page:before{content:"";position:absolute;inset:0;opacity:.13;background-image:radial-gradient(#f6d98a 1px,transparent 1px);background-size:18px 18px;pointer-events:none}.fabric{position:absolute;width:240px;height:130px;opacity:.18;border-radius:50%;background:linear-gradient(135deg,#9e2438,#39030d)}.fabric-top{top:-70px;left:-80px;transform:rotate(-12deg)}.fabric-bottom{bottom:-75px;right:-70px;transform:rotate(18deg)}.ornament{position:relative;text-align:right;color:#e7bd61;font-size:28px;margin:0 4px 8px}.header{text-align:center;position:relative}.logo{width:min(78%,330px);max-height:150px;object-fit:contain;margin:0 auto 16px;display:block}.eyebrow{font-weight:700;font-size:25px;line-height:1.08;letter-spacing:1.2px;color:#f7dc94;margin:4px 0 10px;text-transform:uppercase}.subline{font-size:16px;line-height:1.3;margin:0 4px 24px;color:#f9e9c7}.actions{position:relative;display:grid;gap:12px}.action{width:100%;min-height:78px;border:0;border-radius:42px;padding:12px 14px;display:grid;grid-template-columns:50px 1fr 22px;align-items:center;text-align:left;text-decoration:none;color:#5a0717;background:linear-gradient(#fff3d2,#f5dfad);box-shadow:0 5px 14px #2a000a80,inset 0 1px 0 #fff}.action .icon{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:#750b1e;color:#f5d777;font-size:27px;font-weight:700}.action strong{display:block;font-size:16px}.action small{display:block;font-size:12px;margin-top:4px;color:#825b47}.arrow{font-size:31px;color:#7a1a28}.review-card{position:relative;margin-top:24px;padding:24px 18px;border:1px solid #b98848;border-radius:22px;text-align:center;background:#4d0614aa}.review-card h2{font-size:23px;line-height:1.15;margin:0 0 14px;color:#f5d37f}.review-card p{font-size:15px;line-height:1.45;margin:0 0 18px;color:#f7e6c5}.secondary,.primary{border:1px solid #d3a650;border-radius:30px;padding:13px 20px;font-family:inherit;font-weight:700;cursor:pointer}.secondary{background:transparent;color:#ffe7a9}.primary{background:#f7dfae;color:#650819}.draft-actions{display:flex;gap:8px;flex-wrap:wrap}.link-button{text-decoration:none;display:inline-block}footer{position:relative;text-align:center;margin-top:34px;font-size:13px;line-height:1.45;color:#efdcb4}.footer-rule{color:#e8bf66;font-size:23px}.footer-links a{color:#f6dba0;text-decoration:none}.modal{position:fixed;inset:0;background:#170008cc;display:none;align-items:center;justify-content:center;padding:18px;z-index:20}.modal.open{display:flex}.modal-box{position:relative;width:min(100%,500px);max-height:92vh;overflow:auto;border-radius:22px;padding:24px;background:linear-gradient(#7e1126,#4c0614);border:1px solid #c2914a;box-shadow:0 20px 60px #000b;color:#ffecc5}.close{position:absolute;right:12px;top:8px;background:none;border:0;color:#ffe6ae;font-size:32px}.modal-box h2{margin:4px 30px 14px;text-align:center;font-size:22px}.modal-box label{display:block;margin:12px 0 7px;font-weight:700}.upi-box{padding:13px;border-radius:10px;background:#26030b;border:1px solid #986b3c;word-break:break-all;text-align:center;margin-bottom:12px}.note{font-size:12px;line-height:1.4;color:#e8d3ad}.chips{display:flex;gap:7px;flex-wrap:wrap}.chips button{padding:9px 11px;border-radius:18px;border:1px solid #bd8d4a;background:transparent;color:#ffe9bd}.chips button.selected{background:#f2d49b;color:#610817}.modal-box textarea,.modal-box select{width:100%;border-radius:10px;border:1px solid #aa7b40;background:#fff8e8;color:#3e0610;padding:11px;font-family:inherit;font-size:15px}.modal-box select{margin-bottom:12px}
+/* ANANTAA luxury ethnic decoration */
+.header{
+  position:relative;
+  padding-bottom:24px;
+}
+
+.header::after{
+  content:"";
+  position:absolute;
+  left:14%;
+  right:14%;
+  bottom:4px;
+  height:8px;
+  background:
+    radial-gradient(circle,#f5d98b 1.5px,transparent 2px)
+    0 0/10px 8px;
+  border-top:1px solid rgba(245,217,139,.7);
+  border-bottom:1px solid rgba(245,217,139,.7);
+  opacity:.8;
+}
