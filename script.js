@@ -1,4 +1,172 @@
-let data;const $=s=>document.querySelector(s);const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
-async function loadData(){const r=await fetch('/api/config',{cache:'no-store'});if(!r.ok)throw Error();data=await r.json();render()}
-function render(){ $('#eyebrow').textContent=data.eyebrow||'';$('#subline').textContent=data.subline||'';const defs=[['review','★'],['instagram','◎'],['facebook','f'],['payment','₹'],['maps','●'],['whatsapp','◔'],['phone','☎']];const box=$('#actions');box.innerHTML='';for(const [k,icon] of defs){const x=data[k];if(!x?.enabled)continue;const el=document.createElement(k==='payment'?'button':'a');el.className='action';if(k==='payment'){el.type='button';el.id='payBtn'}else{el.href=k==='phone'?`tel:${x.number}`:x.url;el.target=k==='phone'?'':'_blank';el.rel=k==='phone'?'':'noopener'}el.innerHTML=`<span class="icon">${icon}</span><span><strong>${esc(x.title)}</strong><small>${esc(x.subtitle)}</small></span><span class="arrow">›</span>`;box.appendChild(el)}$('#reviewHelper').innerHTML=`<h2>${esc(data.reviewHelper?.title||'⭐ Need help writing your review?')}</h2><p>${esc(data.reviewHelper?.text||'')}</p><button class="secondary" id="reviewHelpBtn">CREATE MY REVIEW DRAFT</button>`;$('#reviewHelper').style.display=data.reviewHelper?.enabled===false?'none':'';$('#footerName').textContent=data.footer?.name||'';$('#footerAddress').innerHTML=esc(data.footer?.address||'').replace(/\n/g,'<br>');$('#footerLinks').innerHTML=`<a href="tel:${esc(data.phone?.number||'')}">Call</a> · <a href="${esc(data.whatsapp?.url||'#')}" target="_blank">WhatsApp</a> · <a href="${esc(data.maps?.url||'#')}" target="_blank">Maps</a>`;$('#upiText').textContent=data.payment?.upiId||'';$('#reviewOpenBtn').href=data.review?.url||'#';$('#payBtn')?.addEventListener('click',()=>openModal('paymentModal'));$('#reviewHelpBtn')?.addEventListener('click',()=>openModal('reviewModal'))}
-function openModal(id){const e=$('#'+id);e.classList.add('open');e.setAttribute('aria-hidden','false')}function closeModal(id){const e=$('#'+id);e.classList.remove('open');e.setAttribute('aria-hidden','true')}document.addEventListener('click',e=>{const c=e.target.closest('[data-close]');if(c)closeModal(c.dataset.close);if(e.target.id==='upiBtn')location.href=`upi://pay?pa=${encodeURIComponent(data.payment.upiId)}&pn=${encodeURIComponent(data.siteName||'Anantaa Creation')}&cu=INR`});document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id)}));const selected=new Set();document.querySelectorAll('#chips button').forEach(c=>c.addEventListener('click',()=>{const v=c.dataset.value;if(selected.has(v)){selected.delete(v);c.classList.remove('selected')}else{selected.add(v);c.classList.add('selected')}}));$('#draftBtn').addEventListener('click',()=>{const words=$('#reviewWords').value.trim(),rating=$('#rating').value,likes=[...selected];if(!words&&!likes.length)return alert('Please add a few genuine words about your experience or select what you liked.');const stars='★'.repeat(+rating);let text=+rating>=4?`${stars} Had a wonderful shopping experience at ${data.siteName}.${likes.length?` I especially liked ${likes.join(', ')}.`:''} ${words}`:`${stars} My experience at ${data.siteName} was: ${words}${likes.length?` I appreciated ${likes.join(', ')}.`:''}`;$('#draftText').value=text.replace(/\s+/g,' ');$('#draftArea').hidden=false});$('#copyBtn').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('#draftText').value);$('#copyBtn').textContent='COPIED ✓';setTimeout(()=>$('#copyBtn').textContent='COPY',1600)}catch(e){alert('Please select and copy the draft manually.')}});loadData().catch(()=>document.body.innerHTML='<p style="padding:30px">Unable to load Anantaa configuration.</p>');
+let data = null;
+
+async function loadData() {
+  try {
+    const res = await fetch("/api/config", { cache: "no-store" });
+    if (!res.ok) throw new Error("Config request failed");
+    data = await res.json();
+    render(data);
+  } catch (err) {
+    console.error("Anantaa configuration error:", err);
+    // Keep the original HTML visible if config fails.
+  }
+}
+
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el && value != null) el.textContent = value;
+}
+
+function setLink(id, value) {
+  const el = document.getElementById(id);
+  if (el && value) {
+    el.href = value;
+    el.target = "_blank";
+    el.rel = "noopener";
+  }
+}
+
+function render(c) {
+  if (!c) return;
+
+  setText("siteName", c.siteName);
+  setText("eyebrow", c.eyebrow);
+  setText("subtitle", c.subtitle);
+
+  if (c.review) {
+    setText("reviewTitle", c.review.title);
+    setText("reviewSubtitle", c.review.subtitle);
+    setLink("reviewBtn", c.review.url);
+  }
+
+  if (c.instagram) {
+    setText("instagramTitle", c.instagram.title);
+    setText("instagramSubtitle", c.instagram.subtitle);
+    setLink("instagramBtn", c.instagram.url);
+  }
+
+  if (c.facebook) {
+    setText("facebookTitle", c.facebook.title);
+    setText("facebookSubtitle", c.facebook.subtitle);
+    setLink("facebookBtn", c.facebook.url);
+  }
+
+  if (c.payment) {
+    setText("paymentTitle", c.payment.title);
+    setText("paymentSubtitle", c.payment.subtitle);
+  }
+
+  if (c.maps) {
+    setText("mapsTitle", c.maps.title);
+    setText("mapsSubtitle", c.maps.subtitle);
+    setLink("mapsBtn", c.maps.url);
+  }
+
+  if (c.whatsapp) {
+    setText("whatsappTitle", c.whatsapp.title);
+    setText("whatsappSubtitle", c.whatsapp.subtitle);
+    setLink("whatsappBtn", c.whatsapp.url);
+  }
+
+  if (c.phone) {
+    setText("phoneTitle", c.phone.title);
+    setText("phoneSubtitle", c.phone.subtitle);
+    const phoneBtn = document.getElementById("phoneBtn");
+    if (phoneBtn && c.phone.number) {
+      phoneBtn.href = "tel:" + c.phone.number;
+    }
+  }
+
+  if (c.footer) {
+    setText("footerName", c.footer.name);
+    setText("footerAddress", c.footer.address);
+  }
+
+  // Payment button
+  const upiBtn = document.getElementById("upiBtn");
+  if (upiBtn && c.payment && c.payment.upiId) {
+    upiBtn.onclick = function () {
+      window.location.href =
+        "upi://pay?pa=" +
+        encodeURIComponent(c.payment.upiId) +
+        "&pn=" +
+        encodeURIComponent(c.siteName || "Anantaa Creation") +
+        "&cu=INR";
+    };
+  }
+}
+
+// Normal website modals
+function openModal(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.classList.add("open");
+    el.setAttribute("aria-hidden", "false");
+  }
+}
+
+function closeModal(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.classList.remove("open");
+    el.setAttribute("aria-hidden", "true");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  loadData();
+
+  const payBtn = document.getElementById("payBtn");
+  if (payBtn) {
+    payBtn.addEventListener("click", function () {
+      openModal("paymentModal");
+    });
+  }
+
+  const reviewHelpBtn = document.getElementById("reviewHelpBtn");
+  if (reviewHelpBtn) {
+    reviewHelpBtn.addEventListener("click", function () {
+      openModal("reviewModal");
+    });
+  }
+
+  document.querySelectorAll("[data-close]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      closeModal(btn.dataset.close);
+    });
+  });
+
+  document.querySelectorAll(".modal").forEach(function (modal) {
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal) {
+        closeModal(modal.id);
+      }
+    });
+  });
+
+  // IMPORTANT:
+  // Google Review popup is allowed to stay open.
+  const autoReviewClose = document.getElementById("autoReviewClose");
+  const autoReviewLater = document.getElementById("autoReviewLater");
+
+  if (autoReviewClose) {
+    autoReviewClose.addEventListener("click", function () {
+      const modal = document.getElementById("autoReviewModal");
+      if (modal) {
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+      }
+    });
+  }
+
+  if (autoReviewLater) {
+    autoReviewLater.addEventListener("click", function () {
+      const modal = document.getElementById("autoReviewModal");
+      if (modal) {
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+      }
+    });
+  }
+});
