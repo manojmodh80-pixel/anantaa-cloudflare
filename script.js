@@ -28,7 +28,10 @@ function setLink(id, value) {
 
 function render(c) {
   if (!c) return;
-
+const logo = document.querySelector('img[src*="anantaa-logo"]');
+if (logo && c.logo && c.logo.url) {
+  logo.src = c.logo.url;
+}
   setText("siteName", c.siteName);
   setText("eyebrow", c.eyebrow);
   setText("subtitle", c.subtitle);
