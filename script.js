@@ -73,7 +73,7 @@ if (logo && c.logo && c.logo.url) {
 
   if (c.phone) {
     setText("phoneTitle", c.phone.title);
-    setText("phoneSubtitle", c.phone.subtitle);
+    setText("phoneSubtitle", c.phone.number);
     const phoneBtn = document.getElementById("phoneBtn");
     if (phoneBtn && c.phone.number) {
       phoneBtn.href = "tel:" + c.phone.number;
